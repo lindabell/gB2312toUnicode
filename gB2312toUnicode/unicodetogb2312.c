@@ -7497,4 +7497,52 @@ u16 GB2312ToUnicode(u16 data)
 	}
 	return 0 ; //√ª’“µΩ
 }
+/************************************************************************/
+/* test the CPU endian                                                                     */
+/************************************************************************/
+static u8 TestIsBigEndian(void)
+{
+	u16 temp=0x1234;
+	u8 *pChar=(u8 *)&temp;
+	if(*pChar==0x12) return 1;
+	else return 0;
+}
+void GB2312ToUnicode_Str(u16 * const pOutUnicodeStr,u8 * const pGB2312Str)
+{
 
+	u8 *pChar;
+	u16 *pGb2312;
+	u16 *pUnicode;
+	u16 temp;
+	pChar=pGB2312Str;
+	pUnicode=pOutUnicodeStr;
+
+	if(TestIsBigEndian())
+	{
+		while (*pChar)
+		{
+			pGb2312=(u16 *)pChar;
+			*pUnicode=GB2312ToUnicode(*pGb2312);
+			pUnicode++;
+			pChar+=2;
+		}
+		pUnicode=0;
+	}
+	else
+	{
+		while (*pChar)
+		{
+			temp=*pChar++<<8;
+			//temp=temp<<8;
+			//pChar++;
+			temp|=*pChar;
+			*pUnicode=GB2312ToUnicode(temp);
+			pUnicode++;
+			pChar++;
+		}
+		pUnicode=0;
+	}
+	
+	
+
+}

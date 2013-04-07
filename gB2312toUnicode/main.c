@@ -1,15 +1,22 @@
 #include "stdio.h"
 #include "unicodeToGB2312.h"
 
+char Zn[]="Â³¶«´óÑ§";
+
+u16 UnicodeTemp[10];
+
+
 void main(void)
 { 
+	u16 *pZn;
 	u16 unicode_temp;
+	pZn=(u16 *)Zn;
 
-	printf("Unicode\t\tGB2312\n");
+	GB2312ToUnicode_Str(UnicodeTemp,"Â³¶«´óÑ§");
 
-	unicode_temp=GB2312ToUnicode(0xD6A3);	//éƒ‘çš„GB2312å—æ˜¯0xD6A3  unicodeæ˜¯0x90D1
-	printf("%02X\t\t",unicode_temp);
+	unicode_temp=GB2312ToUnicode(*pZn);	//Ö£µÄGB2312ÂğÊÇ0xD6A3  unicodeÊÇ0x90D1
+	printf("Unicode:%02X\t\t",unicode_temp);
 
 	unicode_temp=UnicodeToGB2312(unicode_temp);
-	printf("%02X\n",unicode_temp);
+	printf("GB2312:%02X\n",unicode_temp);
 }
