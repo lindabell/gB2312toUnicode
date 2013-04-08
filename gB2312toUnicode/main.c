@@ -19,4 +19,5 @@ void main(void)
 
 	unicode_temp=UnicodeToGB2312(unicode_temp);
 	printf("GB2312:%02X\n",unicode_temp);
+
 }
