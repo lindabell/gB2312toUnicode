@@ -4,7 +4,7 @@
 char Zn[]="鲁东大学";
 
 u16 UnicodeTemp[10];
-
+u8 Buf[20];
 
 void main(void)
 { 
@@ -13,6 +13,7 @@ void main(void)
 	pZn=(u16 *)Zn;
 
 	GB2312ToUnicode_Str(UnicodeTemp,"鲁东大学");
+	NetworkByteOrder(Buf,UnicodeTemp,sizeof("鲁东大学")-1);
 
 	unicode_temp=GB2312ToUnicode(*pZn);	//郑的GB2312吗是0xD6A3  unicode是0x90D1
 	printf("Unicode:%02X\t\t",unicode_temp);
