@@ -7507,6 +7507,9 @@ static u8 TestIsBigEndian(void)
 	if(*pChar==0x12) return 1;
 	else return 0;
 }
+/**
+对GB2312bianm
+*/
 void GB2312ToUnicode_Str(u16 * const pOutUnicodeStr,u8 * const pGB2312Str)
 {
 
@@ -7533,8 +7536,6 @@ void GB2312ToUnicode_Str(u16 * const pOutUnicodeStr,u8 * const pGB2312Str)
 		while (*pChar)
 		{
 			temp=*pChar++<<8;
-			//temp=temp<<8;
-			//pChar++;
 			temp|=*pChar;
 			*pUnicode=GB2312ToUnicode(temp);
 			pUnicode++;
@@ -7542,7 +7543,35 @@ void GB2312ToUnicode_Str(u16 * const pOutUnicodeStr,u8 * const pGB2312Str)
 		}
 		pUnicode=0;
 	}
-	
-	
+}
 
+/**
+对16位的数组转换成网络字节顺序（即高字节在低地址）
+*/
+s16 NetworkByteOrder(u8 * const pOut,u16 * const pIn,u16  const nByte)
+{
+	u8 *pChar;
+	u16 i;
+	u16 j=0;
+	if(nByte%2!=0) return -1;  //字节数必须是2的倍数
+
+	if(TestIsBigEndian())
+	{
+		pChar=(u8 *)pIn;
+		for (i=0;i<nByte;i++)
+		{
+			pOut[i]=*pChar++;
+		}
+	}
+	else
+	{
+		for (i=0;i<(nByte/2);i++)
+		{
+			pOut[j++]=pIn[i]>>8;
+			pOut[j++]=pIn[i]&0x00FF;
+		}
+		
+	}
+
+	return nByte;
 }
